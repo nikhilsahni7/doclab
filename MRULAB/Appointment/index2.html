@@ -1,0 +1,697 @@
+<!DOCTYPE html><html><head>
+		<!-- Title -->
+		    <title>Make An appointment |MRULAB</title>
+		    <link rel="canonical" href="https://www.tritonhospital.com/book-your-appointment">
+		    <!-- Both are dynamic -->
+	<!-- End of Title -->
+
+	<!-- Favicon -->
+		    <link type="image/x-icon" href="images/favicon.png" rel="shortcut icon">
+	<!-- End of Favicon -->
+
+	<!-- Meta -->
+		    
+		    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1">
+		    <meta name="robots" content="index, follow">
+		    <meta name="author" content="">
+		    <meta name="language" content="English">
+		    <meta name="keywords" content="">
+		    <meta name="description" content="">
+	<!-- End of Meta-->
+
+		<!--Bootstrap and Other Vendors-->
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		
+		<link rel="stylesheet" type="text/css" href="css/datepicker3.css" media="screen">
+		
+		<!--Fonts-->
+		<link href="https://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic" rel="stylesheet" type="text/css">
+		<!--<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>-->
+		
+		<!--Mechanic Styles-->
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/responsive.css">
+		
+		<!--[if lt IE 9]>
+		  <script src="https://www.tritonhospital.com/js/html5shiv.min.js"></script>
+		  <script src="https://www.tritonhospital.com/js/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" href="css/jquery-ui.css">
+	  
+	<script>
+ 
+function showDrdpt(str) {
+	if (str == "") {
+		document.getElementById("dept-name-data").innerHTML = "";
+		return;
+	} else {
+		$.ajax({  
+		    type: 'POST',  
+		    url: 'ajax-load-dr-dept.php', 
+		    data: { q:str },
+		    success: function(response) {
+	//	   	$("#loader").hide();  
+document.getElementById("dept-name-data").innerHTML = response;
+	//	   alert(response);
+		    }
+		});
+
+	}	
+}
+
+function showDaySlot2(str) {
+      	  	$.ajax({  
+   	  	    type: 'POST',  
+		    url: 'ajax-dayslot2.php', 
+		    data: {r:str},
+		    success: function(response) {
+		      //  alert(response);
+		        
+		     document.getElementById("caljs1").innerHTML = response;
+		      var daydata = document.getElementById("days_name_selected").value;
+		      var res = daydata.split(",");
+		    
+		 
+    var unavailableDay1 = res[0];
+    var unavailableDay2 = res[1];
+    var unavailableDay3 = res[2];
+    var unavailableDay4 = res[3];
+    var unavailableDay5 = res[4];
+    var unavailableDay6 = res[5];
+    var unavailableDay7 = res[6];
+    
+     $("#contact_date2").datepicker("refresh");
+     
+	
+       $("#contact_date2").datepicker({
+    minDate: 0,
+   maxDate: 7,
+    beforeShowDay: function (date) {
+        var day = date.getDay();
+        return [(day != unavailableDay1 && day != unavailableDay2 && day != unavailableDay3 && day != unavailableDay4 && day != unavailableDay5 && day != unavailableDay6 && day != unavailableDay7),''];
+        
+ },
+ });
+		 
+ 
+
+
+		 }
+		});
+}
+
+function showtimeSlot2(str) {
+    //alert("hi");
+var dr_date = document.getElementById('contact_date2').value;
+var dr_id = document.getElementById('openDoctor2').value;
+
+
+if (dr_date == "") {
+		document.getElementById("openSchedule1").innerHTML = "";
+		return;
+	} else {
+	  	$.ajax({  
+		    type: 'POST',  
+		    url: 'ajax-timeslot2.php', 
+		    data: { q:dr_date,r:dr_id},
+		    success: function(response) {
+document.getElementById("openSchedule1").innerHTML = response;
+var n = response.search("SUBMIT");
+if(n>0){
+ //   alert('get');
+    $("#withslotdiv2").hide();
+    $("#withoutslothide1").hide();
+}
+
+
+ //alert(response);
+		    }
+		});
+
+	}	
+
+
+} 
+</script>
+
+
+
+<script>
+ 
+function showDoctor(str) {
+	if (str == "") {
+		document.getElementById("openDoctor").innerHTML = "";
+		return;
+	} else {
+		$.ajax({  
+		    type: 'POST',  
+		    url: 'ajax-load-doctor2.php', 
+		    data: { q:str },
+		    success: function(response) {
+	//	   	$("#loader").hide();  
+document.getElementById("openDoctor").innerHTML = response;
+	//	   alert(response);
+		    }
+		});
+
+	}	
+}
+</script>
+<script>
+
+    
+function showtimeSlot(str) {
+    //alert("hi");
+var dr_date = document.getElementById('contact_date').value;
+var dr_id = document.getElementById('openDoctor').value;
+
+
+if (dr_date == "") {
+		document.getElementById("openSchedule").innerHTML = "";
+		return;
+	} else {
+	  	$.ajax({  
+		    type: 'POST',  
+		    url: 'ajax-timeslot2.php', 
+		    data: { q:dr_date,r:dr_id},
+		    success: function(response) {
+document.getElementById("openSchedule").innerHTML = response;
+var n = response.search("SUBMIT");
+if(n>0){
+    $("#withslotdiv").hide();
+    $("#withoutslothide1").hide();
+}
+		    }
+		});
+
+	}	
+
+
+} 
+    
+function showDaySlot(str) {
+   // alert("hi");
+    //	$("#loader").show();
+      	  	$.ajax({  
+   	  	    type: 'POST',  
+		    url: 'https://www.tritonhospital.com/ajax-dayslot1.php', 
+		    data: {r:str},
+		    success: function(response) {
+		     document.getElementById("caljs").innerHTML = response;
+		      var daydata = document.getElementById("days_name_selected").value;
+		      var res = daydata.split(",");
+		    
+		 
+    var unavailableDay1 = res[0];
+    var unavailableDay2 = res[1];
+    var unavailableDay3 = res[2];
+    var unavailableDay4 = res[3];
+    var unavailableDay5 = res[4];
+    var unavailableDay6 = res[5];
+    var unavailableDay7 = res[6];
+    
+     $("#contact_date").datepicker("refresh");
+     
+	
+       $("#contact_date").datepicker({
+    minDate: 0,
+   maxDate: 7,
+    beforeShowDay: function (date) {
+        var day = date.getDay();
+        return [(day != unavailableDay1 && day != unavailableDay2 && day != unavailableDay3 && day != unavailableDay4 && day != unavailableDay5 && day != unavailableDay6 && day != unavailableDay7),''];
+        
+ },
+ });
+		 
+ 
+
+
+		 }
+		});
+}		
+</script>
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  margin-top:25%;
+  margin-left:50%;
+
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.overlay {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: #9b9644c9;
+    z-index:11111;
+    display :none;
+}
+</style>
+	</head>
+	<body class="default about_page">
+<!--<div class="overlay" id="loader">-->
+<!--<div class="loader"></div>-->
+<!--</div>-->
+		<!-- Header --> 
+    <div class="header-wrap">
+        <div class="container">
+			<div class="row">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="col-sm-5 col-md-4">
+					<div class="navbar-header">
+						<a class="navbar-brand" ><img src="images/logo.png" alt=""></a>
+					</div>
+				</div>
+				
+			</div>
+        </div>
+    </div>
+	
+        </div>
+    </nav>	<!-- End header -->
+ 		
+		<section class="row page_intro">
+		    <div class="row m0 inner">
+		        <div class="container">
+		            <div class="row">
+		                <h5>TAKE OPD</h5>
+		                <h2>APPOINTMENT</h2>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+	
+		<style>
+		    .ifmvideo {position:relative;height:0;padding-bottom:56.25%}
+			.landing-glimps{ list-style-type:disc; color:#e6e6e6; font-size:17px; padding-left:35px; }
+			.landing-glimps li{ list-style-type:disc; color:#666666; font-size:17px; padding-left:35px; line-height:25px; margin-bottom:15px; }
+			.header-wrap{ background:#ffffff; }
+			.landing-book-your{ text-align:center; margin-top:30px; }
+			.landing-book-your img{ margin-top:30px; margin-left:20%; }
+			.landing-uper-part-wrap{ color:#666666; padding-top:40px; padding-bottom:20px }
+			.landing-page-uper-line{ font-size:17px; text-align:center; line-height:30px; }
+			.landing-uper-part-wrap .landing-book-your{ margin-top:0; margin-bottom:40px; }
+			.testimonial_section{ background: #ffffff; }
+			.testimonial_section:before{ background:#ffffff; }
+			.landing-page-gallery-wrap .flex-direction-nav{ display:none !important; }
+			.landing-page-gallery-wrap .flexslider{ padding:0; margin-bottom:30px; }
+			.landing-page-gallery-wrap .flexslider{ border:0px solid #e5e5e5; }
+			.landing-page-gallery-wrap .flex-control-nav{ bottom:-50px; }
+			.landing-page-gallery-wrap .flexslider .slides img{ border: 5px #ffffff solid; }
+			.landing-page-gallery-wrap .testimonial_section{ height:650px !important; }
+			.landing-page-gallery-wrap .contactForm .contact_form textarea.form-control{ width:125px; }
+			.landing-testimonial-wrap .authorMeta img{ width:70px !important; }
+			.landing-testimonial-wrap{ background:#ffffff; }
+		</style>
+		
+		<section class="row landing-page-body">
+		    <div class="container">
+		  
+		        <div class="row">
+		        <div class="col-sm-6">
+                            	<h3 class="contact_section_title" style="margin: 0 0 18px;padding-bottom:0px;">OPD Appointment</h3>
+						<div class="row m0 landing-page-gallery-wrap">
+		                    <img src="images/book-appointment.jpeg" alt="" title="">
+		              
+		                </div>
+						<br>
+						<p></p><h3 class="contact_section_title" style="margin:0px;"> Please Note :</h3><p></p>
+						<p>1. No additional amount is charged other than the respective consultant fees.</p>
+                        <p>2. Rescheduling an appointment - You can reschedule an appointment only once within the next 48 hrs beyond which the amount will be forfeited.</p>
+						<p>3. VACCINATION - Please book an appointment for vaccination also so that you don't have to wait in the OPD area when you visit the hospital. The amount deposited online will be adjusted in the vaccination bill generated when you visit the hospital.</p>	
+						<p>4. FOLLOW UP VISITS -  Follow up visits in the first 48 hrs will be complimentary. Follow up visits between 48 hrs-7 days will be charged 70% of the respective consultant's fees. But you are still required to book an appointment online to avoid any overcrowding/waiting in the OPD area.  The excess amount deposited online will be refunded to you when you visit the hospital.</p>
+						<p>5. Patients visiting the hospital during routine OPD hours without an online appointment will not be entertained.</p>
+						<p>6. In case of any problem encountered while booking online, please call at <a href="tel:011-46056464">011-46056464.</a></p>
+					
+					
+                        </div>     
+                <div class="col-sm-6">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified" role="tablist" id="service_tab">
+               
+                    <li role="presentation" style="font-size: 12px;" class="active">
+                        <a href="#dna_testing" aria-controls="dna_testing" role="tab" data-toggle="tab" style="padding: 3px 0;color: #fff;background-color: #aa6236;"><b>Option 1 <br>Book Appointment by Selecting Doctor</b></a></li>
+                             <li role="presentation" style="font-size: 12px;">
+                        <a href="#heart_surgery" aria-controls="heart_surgery" role="tab" data-toggle="tab" style="padding: 3px 0;color: #fff;background-color: #9b9644;"><b>Option 2 <br>Book Appointment by Selecting Department</b></a>
+                        </li>
+                 </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane" id="heart_surgery" style="border: 1px solid #9b9644;">
+                        <div class="col-sm-12">
+                           
+		                <div class="contactForm m0">
+		                    <form action="pay.php" method="POST">
+		                    <div class="contact_form" id="contactForm">
+								<div class="career-page-wrap" style="display: inline-block;">
+								        <div class="col-sm-12">
+	    							        <div class="input-group">
+												<label for="name">Department Name<strong style="color:red">�&nbsp; *</strong></label>
+												<select class="form-control" name="contact_dept" id="contact_dept" style="background: #ffffff; padding: 15px;" onchange="showDoctor(this.value)" required="">
+													<option value="">	--- Select Department ---</option>
+																										<option value="1">Obstetrics and gynaecology</option>
+																										<option value="13">Physiotherapy</option>
+																										<option value="3">Pediatric and neonatology</option>
+																										<option value="8">Orthopaedics</option>
+																										<option value="3">Pediatric and neonatology</option>
+																										<option value="1">Obstetrics and gynaecology</option>
+																										<option value="10">Internal medicine</option>
+																										<option value="10">Internal medicine</option>
+																										<option value="4">General and laparoscopic surgery</option>
+																										<option value="4">General and laparoscopic surgery</option>
+																										<option value="8">Orthopaedics</option>
+																										<option value="3">Pediatric and neonatology</option>
+																										<option value="1">Obstetrics and gynaecology</option>
+																										<option value="2">Pediatric and neonatal surgery</option>
+																										<option value="5">Urology</option>
+																										<option value="7">Lab and radiology</option>
+																										<option value="9">Dentistry</option>
+																										<option value="1">Obstetrics and gynaecology</option>
+																										<option value="17">Ivf</option>
+																										<option value="8">Orthopaedics</option>
+																										<option value="18">Pediatric orthopedics </option>
+																										<option value="19">Dermatology  and cosmetology</option>
+																										<option value="20">Pediatric neurologist</option>
+																										<option value=""></option>
+																										<option value="3">Pediatric and neonatology</option>
+																									</select>
+												<!--<span style="color: #EC2027;" id="contact_dept_err"></span>-->
+    										</div>
+								        </div>
+								        
+								        <div class="col-sm-12">
+	    							        <div class="input-group">
+												<label for="name">Doctor Name<strong style="color:red">�&nbsp; *</strong></label>
+												<select class="form-control" name="contact_dr" style="background: #ffffff; padding: 15px;" id="openDoctor" onchange="showDaySlot(this.value)" required="">
+													<option value="">	--- Select Doctor ---</option>
+													<option value="3" style="font-size:12px;">Dr Anuj Gupta</option>
+	
+													<option value="10" style="font-size:12px;">Dr Aparna C Muddana</option>
+														
+													<option value="11" style="font-size:12px;">Dr Abhishek jain</option>
+														
+													<option value="12" style="font-size:12px;">Dr Manoj</option>
+														
+													<option value="13" style="font-size:12px;">Dr Deepali Gupta</option>
+														
+													<option value="14" style="font-size:12px;">Dr surendra Yadav</option>
+														
+													<option value="15" style="font-size:12px;">Dr Aradhna Kalra</option>
+														
+													<option value="16" style="font-size:12px;">Dr Vineet Jain</option>
+														
+													<option value="17" style="font-size:12px;">Dr S Sengupta</option>
+														
+													<option value="18" style="font-size:12px;">DR KAPIL KOCHHAR</option>
+														
+													<option value="19" style="font-size:12px;">DR RK MASKARA</option>
+														
+													<option value="20" style="font-size:12px;">DR AKSHAY SAXENA</option>
+														
+													<option value="21" style="font-size:12px;">DR DEEPAK SIKRIWAL</option>
+														
+													<option value="22" style="font-size:12px;">DR UMA LAXMI</option>
+														
+													<option value="23" style="font-size:12px;">DR ANAND SINHA</option>
+														
+													<option value="24" style="font-size:12px;">DR ASHISH SAHNI</option>
+														
+													<option value="25" style="font-size:12px;">DR VISHU BHASIN</option>
+														
+													<option value="26" style="font-size:12px;">DR KAPIL GANDHI</option>
+														
+													<option value="27" style="font-size:12px;">DR JAYA AGGRAWAL</option>
+														
+													<option value="28" style="font-size:12px;">DR KUSUM AGGRAWAL</option>
+														
+													<option value="29" style="font-size:12px;">Dr Gaurav Gupta</option>
+														
+													<option value="30" style="font-size:12px;">Dr Oshin Aggrawal</option>
+														
+													<option value="31" style="font-size:12px;">Dr Rafat Trivedi</option>
+														
+													<option value="32" style="font-size:12px;">Dr Shariq</option>
+												</select>
+											
+    										</div>
+    									</div>	
+    								
+                                        <div id="caljs" class="col-sm-12"></div>
+								        <div class="col-sm-12" id="openSchedule"></div>
+								      <div id="withslotdiv">
+								        <div class="col-sm-12">
+											<div class="input-group">
+												<label for="name">Patient Name<strong style="color:red">�&nbsp; *</strong></label>
+												<input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z\s]/g,'');" name="contact_name" class="form-control form-control-name" placeholder="Your Name" required="">
+												
+											</div>
+										
+											<div class="row">
+											<div class="input-group">
+											    <div class="col-sm-6">
+												<label for="name">Patient Age<strong style="color:red">�&nbsp; *</strong></label>
+												<input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g,'');" name="contact_age" id="contact_age" class="form-control form-control-name" placeholder="Patient Age" required="">
+											
+											    </div>
+												<div class="col-sm-6">
+												<label for="name">Gender<strong style="color:red">�&nbsp; *</strong></label>
+												<select class="form-control" name="contact_gender" id="contact_gender" style="background: #ffffff; padding: 15px;" required="">
+													<option value="">Select Gender</option>
+													<option value="male">Male</option>
+													<option value="female">Female</option>
+												</select>
+												</div>
+												
+											</div>
+											</div>
+											
+											<div class="row">
+												<div class="input-group">
+													<div class="col-sm-6">
+														<label for="phone">Mobile Number<strong style="color:red">�&nbsp; *</strong></label>
+														<input type="text" onkeyup="this.value=this.value.replace(/[^0-9\s]/g,'');" maxlength="10" onkeypress="return restrictAlphabets(event)" class="form-control form-control-phone" name="hpuserphone" id="hpuserphone" placeholder="Your Mobile No." required="">
+													
+													</div>
+											        <div class="col-sm-6">
+													 <label for="phone">Alternative Phone No.</label>
+												        <input type="text" onkeyup="this.value=this.value.replace(/[^0-9\s]/g,'');" maxlength="10" onkeypress="return restrictAlphabets(event)" name="contact_relation" id="contact_relation" class="form-control form-control-name" placeholder="Mobile Number">
+												        <span style="color: #EC2027;" id="contact_relation_err"></span>
+												        
+														</div>
+													<div class="col-sm-12">
+												       	<label for="email">E-mail Address</label>
+														<input type="text" name="contact_email" id="contact_email" class="form-control form-control-email" placeholder="Your Email">
+													
+												
+											        </div>
+												</div>
+											</div>
+										
+										
+										</div>
+									 	<div class="col-sm-12">
+											<label for="message">Describe your Problem (Optional)</label>
+											<textarea name="contact_comments" class="form-control form-control-comments" id="contact_comments" placeholder="Write Message Here"></textarea>
+										
+										</div>
+								    	<input type="hidden" name="item_number" value="4753896210">
+								        <input type="hidden" value="apt" name="type" id="apt">
+									    <input type="hidden" name="utm_source" value="OPD Consultation">
+								        <div class="col-sm-12">
+											<button class="submit_btn" style="margin-top:0;">Get Appointment</button><br>
+										</div>
+									   </div>	
+								
+								</div>
+		                    </div>
+		                    </form>
+		            </div>
+		            
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane active" id="dna_testing" style="border: 1px solid #aa6236;">
+                       <div class="col-sm-12">
+                         <div class="contactForm m0">
+		                
+		                    <div class="contact_form" id="contactForm">
+								<div class="career-page-wrap" style="display: inline-block;">
+								        <div class="col-sm-12">
+	    							        <div class="input-group" style="margin-bottom: 15px;">
+												<div class="col-sm-12">
+													<div class="input-group">
+														<form name="submit-to-google-sheet" action="#" method="POST"></form>
+														<label for="name">Doctor Name<strong style="color:red">�&nbsp; *</strong></label>
+														<input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z\s]/g,'');" name="contact_dr" class="form-control form-control-name" placeholder="Your Name" required="">
+													
+													</div>
+												
+								        
+										<div class="col-sm-12">
+											<div class="input-group">
+												<label for="name">Patient Name<strong style="color:red">�&nbsp; *</strong></label>
+												<input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z\s]/g,'');" name="contact_name" class="form-control form-control-name" placeholder="Your Name" required="">
+											
+											</div>
+										
+											<div class="row">
+											<div class="input-group">
+											    <div class="col-sm-6">
+												<label for="name">Patient Age<strong style="color:red">�&nbsp; *</strong></label>
+												<input type="text" onkeyup="this.value=this.value.replace(/[^a-zA-Z0-9\s]/g,'');" name="contact_age" id="contact_age" class="form-control form-control-name" placeholder="Patient Age" required="">
+												
+											    </div>
+												<div class="col-sm-12">
+													<label for="email">Patient Gender</label>
+												 <input type="text" name="contact_gender" id="contact_gender" class="form-control form-control-name" placeholder="Your Gender">
+											 
+										 
+											 </div>
+											</div>
+											</div>
+											
+											<div class="row">
+												<div class="input-group">
+													<div class="col-sm-6">
+														<label for="phone">Mobile Number<strong style="color:red">�&nbsp; *</strong></label>
+														<input type="text" onkeyup="this.value=this.value.replace(/[^0-9\s]/g,'');" maxlength="10" onkeypress="return restrictAlphabets(event)" class="form-control form-control-phone" name="hpuserphone" id="hpuserphone" placeholder="Your Mobile No." required="">
+													
+													</div>
+											        <div class="col-sm-6">
+													 <label for="phone">Alternative Phone No.</label>
+												        <input type="text" onkeyup="this.value=this.value.replace(/[^0-9\s]/g,'');" maxlength="10" onkeypress="return restrictAlphabets(event)" name="contact_relation" id="contact_relation" class="form-control form-control-name" placeholder="Mobile Number">
+												        <span style="color: #EC2027;" id="contact_relation_err"></span>
+												        
+														</div>
+													<div class="col-sm-12">
+												       	<label for="email">E-mail Address</label>
+														<input type="text" name="contact_email" id="contact_email" class="form-control form-control-email" placeholder="Your Email">
+													
+												
+											        </div>
+												</div>
+											</div>
+											
+										
+										</div>
+										
+								
+										<div class="col-sm-12">
+											<label for="message">Describe your Problem (Optional)</label>
+											<input type="text" name="contact_comments" class="form-control form-control-comments" id="contact_comments" placeholder="Write Message Here"></textarea>
+										
+										</div>
+								
+									<input type="hidden" name="item_number" value="4753896210">
+								
+									<input type="hidden" value="apt" name="type" id="apt">
+									<input type="hidden" name="utm_source" value="OPD Consultation">
+								
+										<div class="col-sm-12">
+											<button class="submit_btn" style="margin-top:0;">Get Appointment</button><br>
+										
+										</div>
+										</div>
+								
+								</div>
+		                    </div>
+		                    
+		            </div></form>
+		            
+                        </div>
+                    </div>
+                </div>
+                </div>        
+		       
+            </div>
+		       
+		    </div>
+		</div></section>
+
+		<style>
+			.landing-glipmse-wrap{ background:url(images/glips-bg.jpg) no-repeat scroll center 0; padding:50px 0; color:#ffffff;background-size: cover; }
+			.landing-glipmse-wrap h5{ color:#ffffff; } 
+			.landing-glipmse-wrap h2{ color:#ffffff; } 
+			.landing-glipmse-wrap ul li{ color:#ffffff; font-size:17px; font-style:italic; }
+			.experties-wrap{ background:rgb(229, 240, 251); }
+			.experties-wrap ul li{ color:#404d5f; margin-bottom:7px; font-size:15px; font-weight:bold; }
+			.experties-wrap h5{ color:#404d5f; }
+			.experties-wrap h2{ color:#404d5f; }
+			.contactForm .contact_form textarea.form-control{ height:100px; }
+		</style>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+ new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="js/element.js"></script>		<!--jQuery-->
+		<script src="js/jquery-2.1.3.min.js"></script>
+		
+    	<script src="js/bootstrap.min.js"></script>
+		<!--Bootstrap Date-->
+		<script src="js/bootstrap-datepicker.js"></script>
+		<!--Form Validation-->
+		
+		 <!--Strella JS-->
+		  <script src="js/owl.carousel.min.js"></script>
+		     
+    <script src="js/jquery.flexslider-min.js"></script>
+    <script src="js/theme.js"></script>
+    <!--<script src="https://www.tritonhospital.com/js/revs.js"></script>-->
+		<script src="js/jquery.form.js"></script>
+		<script src="js/jquery.validate.min.js"></script>
+  	   <link rel="stylesheet" href="css/jquery-ui_1.css">
+	   <link rel="stylesheet" type="text/css" href="css/styles.css" media="all">
+       <script src="js/jquery-ui.js"></script>
+   
+       <script src="js/jquery.counterup.min.js"></script>
+<script src="js/allform-validation.js"></script>
+   <script type="text/javascript">
+        /*code: 48-57 Numbers
+        8  - Backspace,
+        35 - home key, 36 - End key
+        37-40: Arrow keys, 46 - Delete key*/
+        function restrictAlphabets(e){
+        var x=e.which||e.keycode;
+        if((x>=48 && x<=57) || x==8 ||
+        	(x>=35 && x<=40)|| x==46)
+        	return true;
+        else
+        	return false;
+        }
+        </script>
+        
+	
+	</body>
+		  
+	  <script>
+		const scriptURL = 'https://script.google.com/macros/s/AKfycbxH7ayu5KdK4YdvRWf1Y-ncerOY0PvWWg_Ye13vfKKJDRm71neDgetaNtt-9kdsA8qZ9A/exec'
+		const form = document.forms['submit-to-google-sheet']
+	  
+		form.addEventListener('submit', e => {
+		  e.preventDefault()
+		  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+			.then(response => console.log('Success!', response))
+			.catch(error => console.error('Error!', error.message))
+		})
+	  </script>
+	  </html>
